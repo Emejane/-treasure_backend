@@ -62,22 +62,28 @@ exports.login = async (req, res) => {
     }
 };
 
-// Logout user
 exports.signOut = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
-        if (user) {
-            const token = req.headers['authorization'];
-            if (token === user.token) {
-                user.token = null;
-                await user.save();
-                return res.status(200).send('Disconnected');
-            }
-            return res.status(401).send('Unauthorized');
+        if (!user) {
+            return res.status(404).send('User not found');
         }
-        return res.status(404).send('User not found');
+
+        const token = req.headers['authorization'];
+        if (!token) {
+            return res.status(401).send('Unauthorized: Token missing');
+        }
+
+        if (token === user.token) {
+            user.token = null;
+            await user.save();
+            return res.status(200).send('Disconnected');
+        }
+
+        return res.status(401).send('Unauthorized');
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
 };
+
