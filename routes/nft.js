@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
-const role = require('../middleware/role');
-const { createCache, findCache } = require('../controllers/nftController');
-
-router.post('/create-cache', [auth, role(['organisateur'])], createCache);
-
-router.get('/find-cache', [auth, role(['chasseur'])], findCache);
+const NFT = require('../models/NFT'); // Assurez-vous d'importer votre modèle de données NFT
+const nftController = require('../controllers/nftController');
+// Route pour récupérer tous les NFT
+router.get('/fetchAndSaveNFT', nftController.fetchAndSaveData);
 
 module.exports = router;

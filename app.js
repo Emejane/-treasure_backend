@@ -12,6 +12,8 @@ app.use(express.json());
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/nft', require('./routes/nft'));
+app.use('/api/collection', require('./routes/collection'));
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
