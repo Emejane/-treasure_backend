@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/api/auth', require('./routes/auth'));
+app.use('/auth', require('./routes/auth'));
 app.use('/api/nft', require('./routes/nft'));
 app.use('/api/collection', require('./routes/collection'));
 

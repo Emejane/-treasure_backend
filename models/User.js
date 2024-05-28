@@ -19,6 +19,9 @@ const userSchema = new mongoose.Schema({
         type: [String],
         enum: ['chasseur', 'organisateur'],
         default: ['chasseur']
+    },
+    token: {
+        type: String
     }
 });
 
