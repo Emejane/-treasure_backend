@@ -57,19 +57,19 @@ const fetchAndSaveData = async () => {
   }
 };
 
-const getCollections = async (req, res) => {
+const getNfts = async (req, res) => {
   try {
-    const collectionInfo = await Collection.find();
-    res.json(collectionInfo);
+    const nftInfo = await NFT.find();
+    res.json(nftInfo);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const getCollectionById = async (req, res) => {
+const getNftById = async (req, res) => {
   try {
-    const collectionInfo = await Collection.findById(req.params.id);
-    res.json(collectionInfo);
+    const nftInfo = await NFT.findById(req.params.id);
+    res.json(nftInfo);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -77,6 +77,6 @@ const getCollectionById = async (req, res) => {
 
 module.exports = {
   fetchAndSaveData,
-  getCollections,
-  getCollectionById
+  getNfts,
+  getNftById
 };

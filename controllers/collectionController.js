@@ -1,7 +1,8 @@
 const fetch = require('node-fetch');
 const mongoose = require('mongoose');
 const connectDB = require('../config/db'); 
-const Collection = require('../models/Collection');
+const collection = require('../models/Collection');
+const collectionModel = require('../models/Collection');
 
 const url = 'https://api.opensea.io/api/v2/collections';
 const options = {
@@ -29,7 +30,7 @@ const fetchAndSaveData = async () => {
           owner: collection.owner
         }));
 
-      await Collection.insertMany(filteredData);
+      await collectionModel.insertMany(filteredData);
       console.log('Data has been saved successfully.');
     } else {
       console.error('Error: The fetched data does not contain an array of collections.');
@@ -45,7 +46,7 @@ const fetchAndSaveData = async () => {
 
 const getCollections = async (req, res) => {
     try {
-        const collectionInfo = await collection.find();
+        const collectionInfo = await collectionModel.find();
         res.json(collectionInfo);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -54,7 +55,7 @@ const getCollections = async (req, res) => {
 
 const getCollectionById = async (req, res) => {
     try {
-        const collectionInfo = await collection.findById(req.params.id);
+        const collectionInfo = await collectionModel.findById(req.params.id);
         res.json(collectionInfo);
     } catch (error) {
         res.status(500).json({ message: error.message });

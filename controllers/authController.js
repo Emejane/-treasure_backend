@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 // Register user
 exports.register = async (req, res) => {
-    const { username, email, password, roles } = req.body;
+    const { username, email, password } = req.body;
 
     try {
         let user = await User.findOne({ email });
@@ -12,8 +12,8 @@ exports.register = async (req, res) => {
             return res.status(400).json({ msg: 'User already exists' });
         }
 
-        user = new User({ username, email, password, roles });
-
+        user = new User({ username, email, password });
+        user.roles = ['chasseur'];
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
 
@@ -23,7 +23,8 @@ exports.register = async (req, res) => {
             }
         };
 
-        user.token = jwt.sign(payload, process.env.JWT_SECRET);
+        const token = jwt.sign(payload, process.env.JWT_SECRET);
+        user.token = token;
         await user.save();
         res.status(201).json({ token });
     } catch (err) {
@@ -53,7 +54,10 @@ exports.login = async (req, res) => {
             }
         };
 
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign(payload, process.env.JWT_SECRET);
+        user.token = token;
+        await user.save();
+
         res.status(200).json({ token });
         
     } catch (err) {
@@ -64,23 +68,16 @@ exports.login = async (req, res) => {
 
 exports.signOut = async (req, res) => {
     try {
+        // Chercher l'utilisateur par ID
         const user = await User.findById(req.params.id);
         if (!user) {
             return res.status(404).send('User not found');
         }
 
-        const token = req.headers['authorization'];
-        if (!token) {
-            return res.status(401).send('Unauthorized: Token missing');
-        }
-
-        if (token === user.token) {
             user.token = null;
             await user.save();
             return res.status(200).send('Disconnected');
-        }
-
-        return res.status(401).send('Unauthorized');
+   
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
