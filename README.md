@@ -16,3 +16,7 @@ npm start
 Démarrage de l'application en mode développement : 
 
 npm run dev
+```
+## Test API with Swagger
+
+http://localhost:5000/api-docs
