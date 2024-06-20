@@ -96,10 +96,21 @@ const options = {
             image: 'https://example.com/image.png',
           },
         },
+      },},
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
       },
     },
-  },
-  apis: ['./routes/*.js'],
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
+  apis: ['./routes/*.js'], 
 };
 
 const specs = swaggerJsdoc(options);
