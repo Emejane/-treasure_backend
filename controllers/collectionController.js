@@ -1,7 +1,6 @@
 const fetch = require('node-fetch');
 const mongoose = require('mongoose');
 const connectDB = require('../config/db'); 
-const collection = require('../models/Collection');
 const collectionModel = require('../models/Collection');
 
 const url = 'https://api.opensea.io/api/v2/collections';
@@ -10,7 +9,7 @@ const options = {
   headers: { accept: 'application/json', 'x-api-key': process.env.API_KEY }
 };
 
-const fetchAndSaveData = async () => {
+const fetchAndSaveData = async (req, res) => {
   try {
     await connectDB();
 
@@ -27,19 +26,23 @@ const fetchAndSaveData = async () => {
           collection_id: collection.collection, 
           description: collection.description,
           image_url: collection.image_url,
-          owner: collection.owner
+          owner: collection.owner,
+          fetchedBy: req.user.id 
         }));
 
       await collectionModel.insertMany(filteredData);
       console.log('Data has been saved successfully.');
+      res.status(200).json({ message: 'Data fetched and saved successfully.' });
     } else {
       console.error('Error: The fetched data does not contain an array of collections.');
+      res.status(400).json({ message: 'The fetched data does not contain an array of collections.' });
     }
     console.log('Data ended successfully.');
   } catch (err) {
     console.error('Error:', err);
+    res.status(500).json({ message: 'Server error.' });
   } finally {
-    console.log('Database closed .');
+    console.log('Database closed.');
     mongoose.connection.close();
   }
 };
@@ -66,4 +69,4 @@ module.exports = {
     fetchAndSaveData,
     getCollections,
     getCollectionById
-  };
+};
