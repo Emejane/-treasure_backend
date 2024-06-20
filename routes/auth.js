@@ -58,12 +58,12 @@ router.post('/register', register);
  *           schema:
  *             type: object
  *             required:
- *               - username
+ *               - email
  *               - password
  *             properties:
- *               username:
+ *               email:
  *                 type: string
- *                 description: The user's username
+ *                 description: The user's email
  *               password:
  *                 type: string
  *                 description: The user's password

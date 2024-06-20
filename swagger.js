@@ -1,4 +1,3 @@
-// swagger.js
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -96,7 +95,7 @@ const options = {
             image: 'https://example.com/image.png',
           },
         },
-      },},
+      },
       securitySchemes: {
         bearerAuth: {
           type: 'http',
@@ -110,6 +109,7 @@ const options = {
         bearerAuth: [],
       },
     ],
+  },
   apis: ['./routes/*.js'], 
 };
 

@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const NFT = require('../models/NFT');
 const nftController = require('../controllers/nftController');
+const auth = require('../middleware/auth');
 
 /**
  * @swagger
@@ -17,6 +18,8 @@ const nftController = require('../controllers/nftController');
  *   get:
  *     summary: Fetch and save NFT data
  *     tags: [NFTs]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: NFT data fetched and saved successfully
@@ -29,7 +32,7 @@ const nftController = require('../controllers/nftController');
  *       500:
  *         description: Server error
  */
-router.get('/fetchAndSaveNFT', nftController.fetchAndSaveData);
+router.get('/fetchAndSaveNFT', auth, nftController.fetchAndSaveData);
 
 /**
  * @swagger
@@ -37,6 +40,8 @@ router.get('/fetchAndSaveNFT', nftController.fetchAndSaveData);
  *   get:
  *     summary: Retrieve a list of NFTs
  *     tags: [NFTs]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: A list of NFTs
@@ -49,7 +54,7 @@ router.get('/fetchAndSaveNFT', nftController.fetchAndSaveData);
  *       500:
  *         description: Server error
  */
-router.get('/getNFTS', nftController.getNfts);
+router.get('/getNFTS',auth, nftController.getNfts);
 
 /**
  * @swagger
@@ -57,6 +62,8 @@ router.get('/getNFTS', nftController.getNfts);
  *   get:
  *     summary: Retrieve an NFT by ID
  *     tags: [NFTs]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -76,6 +83,6 @@ router.get('/getNFTS', nftController.getNfts);
  *       500:
  *         description: Server error
  */
-router.get('/getNFT/:id', nftController.getNftById);
+router.get('/getNFT/:id', auth, nftController.getNftById);
 
 module.exports = router;
