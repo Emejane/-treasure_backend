@@ -1,15 +1,7 @@
-// routes/collection.js
 const express = require('express');
 const router = express.Router();
-const collection = require('../models/Collection');
 const collectionController = require('../controllers/collectionController');
-
-/**
- * @swagger
- * tags:
- *   name: Collections
- *   description: API to manage collections
- */
+const auth = require('../middleware/auth');
 
 /**
  * @swagger
@@ -17,6 +9,8 @@ const collectionController = require('../controllers/collectionController');
  *   get:
  *     summary: Fetch and save collection data
  *     tags: [Collections]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Collection data fetched and saved successfully
@@ -29,7 +23,7 @@ const collectionController = require('../controllers/collectionController');
  *       500:
  *         description: Server error
  */
-router.get('/fetchAndSaveCollections', collectionController.fetchAndSaveData);
+router.get('/fetchAndSaveCollections', auth, collectionController.fetchAndSaveData);
 
 /**
  * @swagger
@@ -37,6 +31,8 @@ router.get('/fetchAndSaveCollections', collectionController.fetchAndSaveData);
  *   get:
  *     summary: Retrieve a list of collections
  *     tags: [Collections]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: A list of collections
@@ -49,7 +45,7 @@ router.get('/fetchAndSaveCollections', collectionController.fetchAndSaveData);
  *       500:
  *         description: Server error
  */
-router.get('/getCollections', collectionController.getCollections);
+router.get('/getCollections', auth, collectionController.getCollections);
 
 /**
  * @swagger
@@ -57,6 +53,8 @@ router.get('/getCollections', collectionController.getCollections);
  *   get:
  *     summary: Retrieve a collection by ID
  *     tags: [Collections]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -76,6 +74,6 @@ router.get('/getCollections', collectionController.getCollections);
  *       500:
  *         description: Server error
  */
-router.get('/getCollection/:id', collectionController.getCollectionById);
+router.get('/getCollection/:id', auth, collectionController.getCollectionById);
 
 module.exports = router;
