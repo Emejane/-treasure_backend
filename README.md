@@ -1,7 +1,7 @@
 # Treasure Caching Backend
 
 This is the backend service for the Treasure Caching application, which includes functionalities for user management, NFT marketplace, and interactive gaming features. This backend interacts with OpenSea API to fetch and store collections and NFTs in our database.
-
+team members: Maha, Melina, Sami
 ## Table of Contents
 
 - [Features](#features)
